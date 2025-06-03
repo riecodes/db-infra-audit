@@ -1,0 +1,101 @@
+.home-hero {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: url('/assets/img-buildings/CVSU_Naic Arc.jpg') center center/cover no-repeat;
+}
+
+.home-hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(77,107,83,0.6), rgba(77,107,83,0.6));
+    z-index: 0;
+    pointer-events: none;
+}
+
+.home-hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    background: rgba(77, 107, 83, 0.75);
+    padding: 3rem 2rem;
+    border-radius: 18px;
+    color: #f5ecd7;
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-title {
+    font-family: 'League Spartan', 'Arimo', 'Glacial Indifference', Arial, sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    animation: slideDown 0.8s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.home-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #e5dfc7;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+.home-btns {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-primary {
+    background: #e5dfc7;
+    color: #4d6b53;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.7rem 2.2rem;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(77,107,83,0.08);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    outline: none;
+    position: relative;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background: #f5ecd7;
+    color: #40684a;
+    transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 600px) {
+    .home-hero-content {
+        padding: 2rem 0.5rem;
+        max-width: 98vw;
+    }
+    .home-title {
+        font-size: 2.1rem;
+    }
+    .home-btns {
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+}
