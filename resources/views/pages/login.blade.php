@@ -23,5 +23,6 @@
                 <a href="/signup">Create account here</a>
             </div>
         </div>
+        <div class="login-hero-overlay"></div>
     </section>
 </x-layout.app>

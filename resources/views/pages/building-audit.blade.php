@@ -3,54 +3,88 @@
 @endpush
 
 <x-layout.app>
-    <div class="audit-container">
-        <h1 class="audit-title">{{ strtoupper($building->name) }}</h1>
-        <div class="audit-section-title">
-            <span class="audit-arrow">&#187;&#187;</span>
-            INFRASTRUCTURE AUDIT
+    <!-- Hero Section -->
+    <div class="audit-hero">
+        <div class="breadcrumb">
+            <a href="{{ route('explore') }}">Explore</a> / 
+            <a href="{{ route('buildings.show', $building->slug) }}">{{ $building->name }}</a> / 
+            Audit
         </div>
-        <div class="audit-table-wrapper">
-            <table class="audit-table">
-                <tr>
-                    <th>RVS SCORE:</th>
-                    <th>3.00</th>
-                    <th>Structure may not be vulnerable to Seismic Hazard</th>
-                </tr>
-                <tr>
-                    <th colspan="3">BUILDING LOCATION IS VULNERABLE TO:</th>
-                </tr>
-                <tr>
-                    <td>Earthquake</td>
-                    <td colspan="2">Yes</td>
-                </tr>
-                <tr>
-                    <td>Landslide/Soil Erosion?</td>
-                    <td colspan="2">No</td>
-                </tr>
-                <tr>
-                    <td>Liquefaction?</td>
-                    <td colspan="2">Yes</td>
-                </tr>
-                <tr>
-                    <td>Tsunami?</td>
-                    <td colspan="2">Yes</td>
-                </tr>
-                <tr>
-                    <th colspan="3">PHYSICAL CONDITION EVALUATION</th>
-                </tr>
-                <tr>
-                    <td>STRUCTURAL</td>
-                    <td colspan="2">No adverse defects</td>
-                </tr>
-                <tr>
-                    <td>NON STRUCTURAL</td>
-                    <td colspan="2">Presence of minor non-structural defects</td>
-                </tr>
-            </table>
+        <a href="{{ route('buildings.show', $building->slug) }}" class="back-btn">
+            ← Back to Details
+        </a>
+        <div class="audit-hero-content">
+            <h1 class="audit-building-title">{{ strtoupper($building->name) }}</h1>
+            <div class="audit-subtitle">
+                <span class="audit-arrow">››</span>
+                INFRASTRUCTURE AUDIT
+                <span class="audit-arrow">‹‹</span>
+            </div>
         </div>
-        <div class="audit-section-title audit-photo-title">
-            <span class="audit-arrow">&#187;&#187;</span>
-            Photo Documentation
+    </div>
+
+    <!-- Main Content -->
+    <div class="audit-content">
+        <!-- RVS Score Card -->
+        <div class="audit-card rvs-score-card">
+            <div class="rvs-header">
+                <div class="rvs-title">
+                    🏗️ RVS SCORE:
+                </div>
+                <div class="rvs-score">3.00</div>
+            </div>
+            <div class="rvs-description">
+                Structure may not be vulnerable to Seismic Hazard
+            </div>
+        </div>
+
+        <!-- Vulnerability Assessment -->
+        <div class="audit-card">
+            <div class="section-title">Building Location is Vulnerable To:</div>
+            <div class="vulnerability-grid">
+                <div class="vulnerability-item yes">
+                    <span class="vulnerability-label">🌍 Earthquake</span>
+                    <span class="vulnerability-status yes">Yes</span>
+                </div>
+                <div class="vulnerability-item no">
+                    <span class="vulnerability-label">⛰️ Landslide/Soil Erosion</span>
+                    <span class="vulnerability-status no">No</span>
+                </div>
+                <div class="vulnerability-item yes">
+                    <span class="vulnerability-label">💧 Liquefaction</span>
+                    <span class="vulnerability-status yes">Yes</span>
+                </div>
+                <div class="vulnerability-item yes">
+                    <span class="vulnerability-label">🌊 Tsunami</span>
+                    <span class="vulnerability-status yes">Yes</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Condition Evaluation -->
+        <div class="audit-card">
+            <div class="section-title">Physical Condition Evaluation</div>
+            <div class="condition-grid">
+                <div class="condition-item">
+                    <div class="condition-type">🏗️ Structural</div>
+                    <div class="condition-status">No adverse defects</div>
+                </div>
+                <div class="condition-item">
+                    <div class="condition-type">🏢 Non-Structural</div>
+                    <div class="condition-status">Presence of minor non-structural defects</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Documentation -->
+        <div class="audit-card photo-section">
+            <div class="photo-title">
+                <span class="audit-arrow">››</span>
+                📸 Photo Documentation
+            </div>
+            <div class="photo-placeholder">
+                Photo documentation will be displayed here when available
+            </div>
         </div>
     </div>
 </x-layout.app>

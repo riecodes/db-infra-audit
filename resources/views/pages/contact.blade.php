@@ -2,70 +2,76 @@
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
 @endpush
 
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactList = document.querySelector('.contact-list');
+    const contactCards = document.querySelectorAll('.contact-card');
+    
+    if (contactList && contactCards.length > 0) {
+        // Add smooth scroll behavior and parallax effect
+        contactList.addEventListener('scroll', function() {
+            const scrollTop = this.scrollTop;
+            const maxScroll = this.scrollHeight - this.clientHeight;
+            const scrollProgress = scrollTop / maxScroll;
+            
+            contactCards.forEach((card, index) => {
+                // Create staggered parallax effect
+                const offset = (scrollProgress * 20) + (index * 2);
+                const opacity = 1 - (Math.abs(scrollTop - (index * 100)) / 300);
+                
+                card.style.transform = `translateX(${Math.sin(offset * 0.1) * 5}px)`;
+                card.style.opacity = Math.max(0.7, Math.min(1, opacity));
+            });
+        });
+        
+        // Add intersection observer for reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, {
+            root: contactList,
+            threshold: 0.1
+        });
+        
+        contactCards.forEach(card => {
+            observer.observe(card);
+        });
+    }
+});
+</script>
+@endpush
+
 <x-layout.app>
     <section class="contact-section">
         <div class="contact-card-container">
             <h2 class="contact-main-title">Contact</h2>
             <div class="contact-list">
-                <div class="contact-column">
+                <div class="contact-scroll-container">
+                    @foreach($contacts as $contact)
                     <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
+                        <img class="contact-avatar" src="{{ $contact->avatar_url }}" alt="{{ $contact->full_name }} Avatar">
                         <div class="contact-info">
-                            <div class="contact-name">ALIBANGBANG, GIAN KELLY S.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Kelly Ali - facebook.com/gnklly</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> giankelly.alibangbang@cvsu.edu.ph</div>
+                            <div class="contact-name">{{ $contact->full_name }}</div>
+                            <div class="contact-social">
+                                <i class="fab fa-facebook-square"></i> 
+                                {{ $contact->facebook_name }} - 
+                                <a href="{{ $contact->facebook_link }}" target="_blank" style="color: inherit; text-decoration: none;">
+                                    facebook.com/{{ $contact->facebook_url }}
+                                </a>
+                            </div>
+                            <div class="contact-email">
+                                <i class="fas fa-envelope"></i> 
+                                <a href="mailto:{{ $contact->email }}" style="color: inherit; text-decoration: none;">
+                                    {{ $contact->email }}
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">ASUNCION, MAECHELLE REI M.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Maechelle Rei - facebook.com/219.mache</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> maechellerei.asuncion@cvsu.edu.ph</div>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">BUNADO, BEATRIZE E.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Beatrize Elevad - facebook.com/bunadobeatrize08</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> beatrize.bunado@cvsu.edu.ph</div>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">CAPAROS, ELLA LUISA M.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Ella Caparos - facebook.com/caparosella</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> ellaluisa.caparos@cvsu.edu.ph</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-column">
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">ASTILLA, PAUL DARYLE T.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Paul Daryle Astilla - facebook.com/pauldaryle.astilla</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> pauldaryle.astilla@cvsu.edu.ph</div>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">BAES, MA. TRISHA RHUMAE M.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Trisha Rhumae Baes - facebook.com/trisha.rhumae.baes.2024</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> trisharhumae.baes@cvsu.edu.ph</div>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <img class="contact-avatar" src="https://www.svgrepo.com/show/382106/avatar-landscape-placeholder.svg" alt="Avatar">
-                        <div class="contact-info">
-                            <div class="contact-name">CAMPOZO, LADY THEA G.</div>
-                            <div class="contact-social"><i class="fab fa-facebook-square"></i> Lady Thea Campozo - facebook.com/lady.thea.campozo.2024</div>
-                            <div class="contact-email"><i class="fas fa-envelope"></i> ladythea.campozo@cvsu.edu.ph</div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

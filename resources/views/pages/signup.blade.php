@@ -27,5 +27,6 @@
                 <a href="/login">Already have an account?</a>
             </div>
         </div>
+        <div class="login-hero-overlay"></div>
     </section>
 </x-layout.app> 

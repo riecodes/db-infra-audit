@@ -32,38 +32,77 @@ body {
     border-radius: 16px;
     box-shadow: 0 4px 32px rgba(0,0,0,0.10);
     padding: 2rem;
-    max-width: 900px;
+    max-width: 800px;
     width: 100%;
+    height: 500px;
     margin: 0 1rem;
     animation: fadeIn 0.8s cubic-bezier(.4,0,.2,1);
     z-index: 1;
     position: relative;
+    overflow: hidden;
 }
 
 .contact-main-title {
     font-family: 'League Spartan', 'Arimo', 'Glacial Indifference', Arial, sans-serif;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: #4d6b53;
     letter-spacing: 0.03em;
     text-align: center;
 }
 
 .contact-list {
-    display: flex;
-    gap: 2rem;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    height: calc(100% - 4rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 1rem;
+    scroll-behavior: smooth;
+    position: relative;
 }
 
-.contact-column {
+.contact-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.contact-list::-webkit-scrollbar-track {
+    background: rgba(77,107,83,0.1);
+    border-radius: 3px;
+}
+
+.contact-list::-webkit-scrollbar-thumb {
+    background: rgba(77,107,83,0.3);
+    border-radius: 3px;
+    transition: background 0.2s;
+}
+
+.contact-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(77,107,83,0.5);
+}
+
+.contact-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(to bottom, #4d6b53, transparent);
+    opacity: 0.6;
+    animation: scrollIndicator 2s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes scrollIndicator {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(20px); opacity: 0.3; }
+}
+
+.contact-scroll-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    flex: 1;
-    max-width: calc(50% - 1rem);
+    gap: 1rem;
+    padding-bottom: 1rem;
 }
 
 .contact-card {
@@ -74,13 +113,52 @@ body {
     box-shadow: 0 2px 12px rgba(77,107,83,0.08);
     padding: 1.2rem 1.5rem;
     gap: 1.2rem;
-    transition: box-shadow 0.2s, transform 0.2s;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.2s;
     width: 100%;
+    min-height: 80px;
+    opacity: 0.85;
+    transform: translateX(-20px);
+    animation: slideInCard 0.6s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.contact-card:nth-child(even) {
+    animation-delay: 0.1s;
+    transform: translateX(20px);
+}
+
+.contact-card:nth-child(3n) {
+    animation-delay: 0.2s;
 }
 
 .contact-card:hover {
-    box-shadow: 0 6px 24px rgba(77,107,83,0.18);
-    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(77,107,83,0.15);
+    transform: translateY(-2px) scale(1.02);
+    opacity: 1;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.contact-card:hover .contact-avatar {
+    transform: scale(1.05);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+.contact-card:hover .contact-info {
+    transform: translateX(5px);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes slideInCard {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.contact-card:hover {
+    box-shadow: 0 8px 32px rgba(77,107,83,0.15);
+    transform: translateY(-2px) scale(1.02);
+    opacity: 1;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
 }
 
 .contact-avatar {
@@ -90,6 +168,7 @@ body {
     object-fit: cover;
     border: 2px solid #4d6b53;
     background: #e5dfc7;
+    flex-shrink: 0;
 }
 
 .contact-info {
@@ -123,41 +202,58 @@ body {
 }
 
 @media (max-width: 900px) {
-    .contact-list {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .contact-column {
-        max-width: 100%;
-    }
-    
     .contact-card-container {
-        padding: 1.2rem;
+        height: 450px;
+        max-width: 600px;
+        padding: 1.5rem;
         margin: 0 1rem;
+    }
+    
+    .contact-main-title {
+        font-size: 1.9rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .contact-list {
+        height: calc(100% - 3.5rem);
+        padding-right: 0.5rem;
     }
 }
 
 @media (max-width: 600px) {
-    .contact-card {
-        flex-direction: column;
-        align-items: flex-start;
+    .contact-card-container {
+        height: 400px;
         padding: 1rem;
-        width: 100%;
+        margin: 0 0.5rem;
+    }
+    
+    .contact-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem;
+        min-height: 70px;
     }
     
     .contact-avatar {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
     }
     
     .contact-main-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
     }
     
-    .contact-card-container {
-        padding: 1rem;
-        margin: 0 0.5rem;
+    .contact-name {
+        font-size: 1rem;
+    }
+    
+    .contact-social, .contact-email {
+        font-size: 0.9rem;
+    }
+    
+    .contact-list {
+        height: calc(100% - 3rem);
     }
 }
 
