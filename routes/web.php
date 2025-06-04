@@ -26,4 +26,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/buildings/{slug}', [BuildingController::class, 'show'])->name('buildings.show');
 Route::get('/buildings/{slug}/audit', [BuildingController::class, 'audit'])->name('buildings.audit');
-Route::post('/buildings/{building}/update-image', [BuildingController::class, 'updateImage'])->name('buildings.updateImage');
+Route::post('/buildings/{id}/update-image', [BuildingController::class, 'updateImage'])->name('buildings.updateImage');
+Route::post('/buildings/{id}/update-audit', [BuildingController::class, 'updateAudit'])->name('buildings.updateAudit');
