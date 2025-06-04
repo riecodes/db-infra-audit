@@ -17,9 +17,17 @@
             box-shadow: 0 8px 40px rgba(0,0,0,0.18);
             padding: 2.5rem 2.5rem 2rem 2.5rem;
             min-width: 320px; max-width: 95vw;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
             font-family: inherit;
             animation: fadeInModal 0.3s;
+        }
+        @media (max-width: 600px) {
+            .modal-card {
+                padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+                min-width: 0;
+            }
         }
         .modal-close-btn {
             position: absolute;

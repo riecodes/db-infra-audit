@@ -98,7 +98,7 @@
             <div class="stat-card">
                 <div class="stat-icon">📅</div>
                 <div class="stat-value">{{ $building->year_edition_of_nscp ?? 'N/A' }}</div>
-                <div class="stat-label">Year Edition of sNSCP</div>
+                <div class="stat-label">Year Edition of NSCP</div>
             </div>
         </div>        <!-- Building Information Card -->
 
