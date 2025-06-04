@@ -13,7 +13,57 @@
             <a href="{{ route('explore') }}">Explore</a> / Building Details
         </div>
         @auth
-            <button class="edit-info-btn">EDIT INFO</button>
+            <button class="edit-info-btn" id="editImageBtn" type="button">EDIT IMAGE</button>
+            <!-- Edit Image Modal -->
+            <div id="editImageModal" style="display:none;position:fixed;z-index:10000;left:0;top:0;width:100vw;height:100vh;background:rgba(30,30,30,0.85);align-items:center;justify-content:center;">
+                <form method="POST" action="{{ route('buildings.updateImage', $building->id) }}" enctype="multipart/form-data" style="background:#fff;padding:2rem 2.5rem;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,0.2);position:relative;min-width:320px;max-width:90vw;">
+                    @csrf
+                    <span id="closeEditImageModal" style="position:absolute;top:1rem;right:1.5rem;font-size:2rem;color:#333;cursor:pointer;font-weight:bold;">&times;</span>
+                    <h2 style="margin-bottom:1.5rem;color:#4d6b53;">Change Main Image</h2>
+                    <input type="file" name="main_img" id="mainImgInput" accept="image/*" required style="margin-bottom:1rem;">
+                    <div id="mainImgPreviewWrapper" style="margin-bottom:1rem;display:none;">
+                        <img id="mainImgPreview" src="" style="max-width:300px;max-height:200px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    </div>
+                    <button type="submit" style="background:#4d6b53;color:#fff;padding:0.7rem 2rem;border:none;border-radius:10px;font-weight:700;font-size:1.1rem;cursor:pointer;">Save Image</button>
+                </form>
+            </div>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var editBtn = document.getElementById('editImageBtn');
+                var modal = document.getElementById('editImageModal');
+                var closeBtn = document.getElementById('closeEditImageModal');
+                var input = document.getElementById('mainImgInput');
+                var previewWrapper = document.getElementById('mainImgPreviewWrapper');
+                var preview = document.getElementById('mainImgPreview');
+                if(editBtn && modal && closeBtn) {
+                    editBtn.addEventListener('click', function() {
+                        modal.style.display = 'flex';
+                    });
+                    closeBtn.addEventListener('click', function() {
+                        modal.style.display = 'none';
+                        input.value = '';
+                        previewWrapper.style.display = 'none';
+                        preview.src = '';
+                    });
+                    modal.addEventListener('click', function(e) {
+                        if(e.target === modal) closeBtn.click();
+                    });
+                    input.addEventListener('change', function(e) {
+                        if(input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function(ev) {
+                                preview.src = ev.target.result;
+                                previewWrapper.style.display = 'block';
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        } else {
+                            previewWrapper.style.display = 'none';
+                            preview.src = '';
+                        }
+                    });
+                }
+            });
+            </script>
         @endauth
         <div class="hero-content">
             <h1 class="building-title">{{ strtoupper($building->name) }}</h1>
@@ -48,7 +98,7 @@
             <div class="stat-card">
                 <div class="stat-icon">📅</div>
                 <div class="stat-value">{{ $building->year_edition_of_nscp ?? 'N/A' }}</div>
-                <div class="stat-label">Year Edition of NSCP</div>
+                <div class="stat-label">Year Edition of sNSCP</div>
             </div>
         </div>        <!-- Building Information Card -->
 

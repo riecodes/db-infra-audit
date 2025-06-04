@@ -32,4 +32,18 @@ class BuildingController extends Controller
             'building' => $building
         ]);
     }
+
+    public function updateImage(Request $request, $id)
+    {
+        $building = Building::findOrFail($id);
+        $request->validate([
+            'main_img' => 'required|image|max:4096',
+        ]);
+        $file = $request->file('main_img');
+        $filename = uniqid('building_') . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('assets/img-buildings'), $filename);
+        $building->main_img = $filename;
+        $building->save();
+        return redirect()->back()->with('success', 'Main image updated!');
+    }
 }
