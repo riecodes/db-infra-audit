@@ -357,6 +357,53 @@ body {
     font-weight: 600;
 }
 
+/* Enhanced Photo Documentation Styles */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.photo-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.3);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.photo-item:hover {
+    background: rgba(255,255,255,0.5);
+    transform: translateY(-3px);
+}
+
+.photo-preview {
+    font-size: 3rem;
+    color: rgba(77,107,83,0.6);
+    margin-bottom: 1rem;
+    background: rgba(77,107,83,0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 2px dashed rgba(77,107,83,0.3);
+}
+
+.photo-label {
+    font-weight: 600;
+    color: #40684a;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.photo-note {
+    text-align: center;
+    color: #40684a;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
 /* Back Button */
 .back-btn {
     position: fixed;

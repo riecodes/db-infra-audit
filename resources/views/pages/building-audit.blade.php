@@ -36,38 +36,42 @@
             <table class="audit-table">
                 <tr>
                     <th>RVS SCORE:</th>
-                    <th>3.00</th>
-                    <th>Structure may not be vulnerable to Seismic Hazard</th>
+                    <th>{{ $building->rvs_score ?? 'N/A' }}</th>
+                    <th>{{ $building->rvs_assessment ?? 'Assessment Pending' }}</th>
                 </tr>
                 <tr>
                     <th colspan="3">BUILDING LOCATION IS VULNERABLE TO:</th>
                 </tr>
                 <tr>
                     <td>Earthquake</td>
-                    <td colspan="2">Yes</td>
+                    <td colspan="2">{{ $building->vulnerable_earthquake ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
                     <td>Landslide/Soil Erosion?</td>
-                    <td colspan="2">No</td>
+                    <td colspan="2">{{ $building->vulnerable_landslide ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
                     <td>Liquefaction?</td>
-                    <td colspan="2">Yes</td>
+                    <td colspan="2">{{ $building->vulnerable_liquefaction ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
                     <td>Tsunami?</td>
-                    <td colspan="2">Yes</td>
+                    <td colspan="2">{{ $building->vulnerable_tsunami ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <td>Storm Surge?</td>
+                    <td colspan="2">{{ $building->vulnerable_storm_surge ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
                     <th colspan="3">PHYSICAL CONDITION EVALUATION</th>
                 </tr>
                 <tr>
                     <td>STRUCTURAL</td>
-                    <td colspan="2">No adverse defects</td>
+                    <td colspan="2">{{ $building->structural_condition ?? 'Not assessed' }}</td>
                 </tr>
                 <tr>
                     <td>NON STRUCTURAL</td>
-                    <td colspan="2">Presence of minor non-structural defects</td>
+                    <td colspan="2">{{ $building->nonstructural_condition ?? 'Not assessed' }}</td>
                 </tr>
             </table>
         </div>
@@ -88,26 +92,26 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🔍</div>
-                <div class="stat-value">3.00</div>
+                <div class="stat-value">{{ $building->rvs_score ?? 'N/A' }}</div>
                 <div class="stat-label">RVS Score</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">⚠️</div>
-                <div class="stat-value">Active</div>
+                <div class="stat-value">{{ $building->audit_status ?? 'Pending' }}</div>
                 <div class="stat-label">Audit Status</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🛡️</div>
-                <div class="stat-value">Low Risk</div>
+                <div class="stat-value">{{ $building->risk_level ?? 'Unknown' }}</div>
                 <div class="stat-label">Risk Level</div>
             </div>
         </div>
 
         <!-- RVS Score Card -->
         <div class="rvs-score-card">
-            <div class="rvs-score">3.00</div>
+            <div class="rvs-score">{{ $building->rvs_score ?? 'N/A' }}</div>
             <div class="rvs-description">RVS Score</div>
-            <div class="rvs-status">Structure may not be vulnerable to Seismic Hazard</div>
+            <div class="rvs-status">{{ $building->rvs_assessment ?? 'Assessment Pending' }}</div>
         </div>
 
         <!-- Vulnerability Assessment -->
@@ -116,19 +120,33 @@
             <div class="vulnerability-grid">
                 <div class="vulnerability-item">
                     <span class="vulnerability-label">Earthquake</span>
-                    <span class="vulnerability-status yes">Yes</span>
+                    <span class="vulnerability-status {{ $building->vulnerable_earthquake ? 'yes' : 'no' }}">
+                        {{ $building->vulnerable_earthquake ? 'Yes' : 'No' }}
+                    </span>
                 </div>
                 <div class="vulnerability-item">
                     <span class="vulnerability-label">Landslide/Soil Erosion</span>
-                    <span class="vulnerability-status no">No</span>
+                    <span class="vulnerability-status {{ $building->vulnerable_landslide ? 'yes' : 'no' }}">
+                        {{ $building->vulnerable_landslide ? 'Yes' : 'No' }}
+                    </span>
                 </div>
                 <div class="vulnerability-item">
                     <span class="vulnerability-label">Liquefaction</span>
-                    <span class="vulnerability-status yes">Yes</span>
+                    <span class="vulnerability-status {{ $building->vulnerable_liquefaction ? 'yes' : 'no' }}">
+                        {{ $building->vulnerable_liquefaction ? 'Yes' : 'No' }}
+                    </span>
                 </div>
                 <div class="vulnerability-item">
                     <span class="vulnerability-label">Tsunami</span>
-                    <span class="vulnerability-status yes">Yes</span>
+                    <span class="vulnerability-status {{ $building->vulnerable_tsunami ? 'yes' : 'no' }}">
+                        {{ $building->vulnerable_tsunami ? 'Yes' : 'No' }}
+                    </span>
+                </div>
+                <div class="vulnerability-item">
+                    <span class="vulnerability-label">Storm Surge</span>
+                    <span class="vulnerability-status {{ $building->vulnerable_storm_surge ? 'yes' : 'no' }}">
+                        {{ $building->vulnerable_storm_surge ? 'Yes' : 'No' }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -139,11 +157,11 @@
             <div class="condition-grid">
                 <div class="condition-item">
                     <div class="condition-type">Structural</div>
-                    <div class="condition-status">No adverse defects</div>
+                    <div class="condition-status">{{ $building->structural_condition ?? 'Not assessed' }}</div>
                 </div>
                 <div class="condition-item">
                     <div class="condition-type">Non-Structural</div>
-                    <div class="condition-status">Presence of minor non-structural defects</div>
+                    <div class="condition-status">{{ $building->nonstructural_condition ?? 'Not assessed' }}</div>
                 </div>
             </div>
         </div>
@@ -152,7 +170,25 @@
         <div class="photo-section">
             <h2 class="section-title">Photo Documentation</h2>
             <div class="photo-placeholder">
-                📸 Photo documentation will be displayed here
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <div class="photo-preview">📷</div>
+                        <div class="photo-label">Exterior View</div>
+                    </div>
+                    <div class="photo-item">
+                        <div class="photo-preview">📷</div>
+                        <div class="photo-label">Interior View</div>
+                    </div>
+                    <div class="photo-item">
+                        <div class="photo-preview">📷</div>
+                        <div class="photo-label">Structural Details</div>
+                    </div>
+                    <div class="photo-item">
+                        <div class="photo-preview">📷</div>
+                        <div class="photo-label">Documentation</div>
+                    </div>
+                </div>
+                <p class="photo-note">📸 Photo documentation will be implemented in future updates</p>
             </div>
         </div>
     </div>
