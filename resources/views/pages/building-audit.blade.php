@@ -88,7 +88,33 @@
             <span class="audit-arrow">&#187;&#187;</span>
             Photo Documentation
         </div>
-        @include('components.photo-documentation-carousel', ['carouselId' => 'table-view-carousel', 'building' => $building])
+        @php
+            $docImgs = $building->documentation_imgs ? explode(',', $building->documentation_imgs) : [];
+        @endphp
+        <div class="photo-section simple-photo-docs" style="margin-bottom:2rem;">
+            <h2 class="section-title" style="margin-bottom:1.5rem;">Photo Documentation</h2>
+            @if(count($docImgs))
+                <div class="simple-photo-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;">
+                    @foreach($docImgs as $img)
+                        @php $imgName = basename($img); @endphp
+                        <div class="simple-photo-item" style="text-align:center;">
+                            <img src="{{ asset('assets/img-documentation/' . $img) }}" alt="{{ $imgName }}" class="simple-doc-img-thumb" style="width:100%;max-width:220px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:1rem;object-fit:cover;cursor:pointer;aspect-ratio:4/3;background:#f5f5f5;display:block;margin-left:auto;margin-right:auto;" loading="lazy" data-img="{{ asset('assets/img-documentation/' . $img) }}">
+                            <div class="photo-label" style="font-weight:700;font-size:1.1rem;color:#40684a;margin-top:0.5rem;">{{ $imgName }}</div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="photo-placeholder" style="background:none;box-shadow:none;padding:0;">
+                    <div class="photo-grid" style="background:none;box-shadow:none;padding:0;">
+                        <div class="photo-item" style="background:none;box-shadow:none;padding:0;">
+                            <div class="photo-preview">📷</div>
+                            <div class="photo-label">No Documentation Images</div>
+                        </div>
+                    </div>
+                    <p class="photo-note">📸 No photo documentation available for this building.</p>
+                </div>
+            @endif
+        </div>
     </div>
 
     <!-- Card View (Modern Design) -->
@@ -177,7 +203,33 @@
         </div>
 
         <!-- Photo Documentation -->
-        @include('components.photo-documentation-carousel', ['carouselId' => 'card-view-carousel', 'building' => $building])
+        @php
+            $docImgs = $building->documentation_imgs ? explode(',', $building->documentation_imgs) : [];
+        @endphp
+        <div class="photo-section simple-photo-docs" style="margin-bottom:2rem;">
+            <h2 class="section-title" style="margin-bottom:1.5rem;">Photo Documentation</h2>
+            @if(count($docImgs))
+                <div class="simple-photo-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;">
+                    @foreach($docImgs as $img)
+                        @php $imgName = basename($img); @endphp
+                        <div class="simple-photo-item" style="text-align:center;">
+                            <img src="{{ asset('assets/img-documentation/' . $img) }}" alt="{{ $imgName }}" class="simple-doc-img-thumb" style="width:100%;max-width:220px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:1rem;object-fit:cover;cursor:pointer;aspect-ratio:4/3;background:#f5f5f5;display:block;margin-left:auto;margin-right:auto;" loading="lazy" data-img="{{ asset('assets/img-documentation/' . $img) }}">
+                            <div class="photo-label" style="font-weight:700;font-size:1.1rem;color:#40684a;margin-top:0.5rem;">{{ $imgName }}</div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="photo-placeholder" style="background:none;box-shadow:none;padding:0;">
+                    <div class="photo-grid" style="background:none;box-shadow:none;padding:0;">
+                        <div class="photo-item" style="background:none;box-shadow:none;padding:0;">
+                            <div class="photo-preview">📷</div>
+                            <div class="photo-label">No Documentation Images</div>
+                        </div>
+                    </div>
+                    <p class="photo-note">📸 No photo documentation available for this building.</p>
+                </div>
+            @endif
+        </div>
     </div>
 
     <!-- Floating Back Button -->
@@ -187,208 +239,138 @@
     </button>
 
     <script>
+    // Global function to attach click handlers for modal
+    function attachClickHandlers() {
+        // Remove existing handlers first
+        document.querySelectorAll('.doc-img-thumb').forEach(function(img) {
+            img.onclick = null;
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const modal = document.getElementById('docImgModal');
+                const modalImg = document.getElementById('docImgModalImg');
+                const modalName = document.getElementById('modalImageName');
+                modalImg.src = this.getAttribute('data-img');
+                modalName.textContent = this.getAttribute('alt');
+                modal.style.display = 'flex';
+                modal.classList.add('modal-show');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        document.querySelectorAll('.photo-item-wrapper').forEach(function(wrapper) {
+            wrapper.onclick = null;
+            wrapper.style.cursor = 'pointer';
+            wrapper.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const img = this.querySelector('.doc-img-thumb');
+                if (img) {
+                    const modal = document.getElementById('docImgModal');
+                    const modalImg = document.getElementById('docImgModalImg');
+                    const modalName = document.getElementById('modalImageName');
+                    modalImg.src = img.getAttribute('data-img');
+                    modalName.textContent = img.getAttribute('alt');
+                    modal.style.display = 'flex';
+                    modal.classList.add('modal-show');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+    }
+
+    // Modal close logic
+    function closeModal() {
+        const modal = document.getElementById('docImgModal');
+        const modalImg = document.getElementById('docImgModalImg');
+        modal.classList.remove('modal-show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modalImg.src = '';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize all photo carousels
+        $('.photo-carousel').each(function() {
+            $(this).owlCarousel({
+                loop: $(this).find('.photo-carousel-item').length > 1,
+                margin: 20,
+                nav: true,
+                dots: true,
+                autoplay: false,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                navText: ['‹', '›'],
+                mouseDrag: false,
+                touchDrag: true,
+                pullDrag: false,
+                freeDrag: false,
+                responsive: {
+                    0: { items: 1, margin: 10, mouseDrag: false },
+                    600: { items: 2, margin: 15, mouseDrag: false },
+                    1000: { items: 3, margin: 20, mouseDrag: false },
+                    1200: { items: 4, margin: 20, mouseDrag: false }
+                },
+                onInitialized: function() { setTimeout(attachClickHandlers, 100); },
+                onChanged: function() { setTimeout(attachClickHandlers, 100); }
+            });
+        });
+        attachClickHandlers();
+        // Modal close events
+        document.getElementById('docImgModalClose').addEventListener('click', closeModal);
+        document.getElementById('docImgModal').addEventListener('click', function(e) {
+            if (e.target === this || e.target.classList.contains('modal-backdrop')) {
+                closeModal();
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('docImgModal');
+            if (modal.style.display === 'flex' && e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    });
+
+    // Ensure handlers are reattached after toggling views
     function toggleView() {
         const tableView = document.getElementById('tableView');
         const cardView = document.getElementById('cardView');
         const toggleText = document.getElementById('toggleText');
         const toggleIcon = document.querySelector('.view-toggle-btn .icon');
-        
         if (tableView.style.display === 'none') {
-            // Switch to table view
             tableView.style.display = 'block';
             cardView.style.display = 'none';
             toggleText.textContent = 'View in Cards';
             toggleIcon.textContent = '📊';
-            
-            // Reinitialize table view carousel after a short delay
             setTimeout(() => {
                 const tableCarousel = $('#table-view-carousel');
                 if (tableCarousel.length && tableCarousel.hasClass('owl-loaded')) {
                     tableCarousel.trigger('refresh.owl.carousel');
                 }
+                attachClickHandlers();
             }, 150);
         } else {
-            // Switch to card view
             tableView.style.display = 'none';
             cardView.style.display = 'block';
             toggleText.textContent = 'View in Table';
             toggleIcon.textContent = '🃏';
-            
-            // Reinitialize card view carousel after a short delay
             setTimeout(() => {
                 const cardCarousel = $('#card-view-carousel');
                 if (cardCarousel.length && cardCarousel.hasClass('owl-loaded')) {
                     cardCarousel.trigger('refresh.owl.carousel');
                 }
+                attachClickHandlers();
             }, 150);
         }
     }
     </script>
 
     <!-- Enhanced Modal for image lightbox -->
-    <div id="docImgModal" class="image-modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <span id="docImgModalClose" class="modal-close">&times;</span>
-            <div class="modal-image-container">
-                <img id="docImgModalImg" src="" class="modal-image" alt="Documentation Image">
-                <div class="modal-image-info">
-                    <span id="modalImageName" class="modal-image-name"></span>
-                    <span class="modal-hint">Click image or press ESC to close</span>
-                </div>
-            </div>
-        </div>
+    <div id="docImgModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(30,30,30,0.85);align-items:center;justify-content:center;">
+        <span id="docImgModalClose" style="position:absolute;top:2rem;right:3rem;font-size:3rem;color:#fff;cursor:pointer;font-weight:bold;z-index:10001;">&times;</span>
+        <img id="docImgModalImg" src="" style="max-width:90vw;max-height:80vh;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,0.5);display:block;margin:auto;z-index:10000;">
+        <div id="docImgModalName" style="color:#fff;text-align:center;font-size:1.2rem;margin-top:1rem;font-weight:600;"></div>
     </div>
-    <script>
-        $(document).ready(function(){
-            // Initialize all photo carousels
-            $('.photo-carousel').each(function() {
-                $(this).owlCarousel({
-                    loop: $(this).find('.photo-carousel-item').length > 1,
-                    margin: 20,
-                    nav: true,
-                    dots: true,
-                    autoplay: false,
-                    autoplayTimeout: 5000,
-                    autoplayHoverPause: true,
-                    navText: ['‹', '›'],
-                    mouseDrag: false,  // Disable mouse drag to prevent conflicts with clicks
-                    touchDrag: true,   // Keep touch drag for mobile
-                    pullDrag: false,   // Disable pull drag
-                    freeDrag: false,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            margin: 10,
-                            mouseDrag: false
-                        },
-                        600: {
-                            items: 2,
-                            margin: 15,
-                            mouseDrag: false
-                        },
-                        1000: {
-                            items: 3,
-                            margin: 20,
-                            mouseDrag: false
-                        },
-                        1200: {
-                            items: 4,
-                            margin: 20,
-                            mouseDrag: false
-                        }
-                    },
-                    onInitialized: function() {
-                        // Re-attach click handlers after carousel initialization
-                        setTimeout(attachClickHandlers, 100);
-                    },
-                    onChanged: function() {
-                        // Re-attach click handlers after carousel changes
-                        setTimeout(attachClickHandlers, 100);
-                    }
-                });
-            });
-            
-            // Function to attach click handlers to images
-            function attachClickHandlers() {
-                // Remove existing handlers first
-                document.querySelectorAll('.doc-img-thumb').forEach(function(img) {
-                    img.removeEventListener('click', imageClickHandler);
-                });
-                document.querySelectorAll('.photo-item-wrapper').forEach(function(wrapper) {
-                    wrapper.removeEventListener('click', wrapperClickHandler);
-                });
-                
-                // Add fresh handlers
-                document.querySelectorAll('.doc-img-thumb').forEach(function(img) {
-                    img.style.cursor = 'pointer';
-                    img.addEventListener('click', imageClickHandler);
-                });
-                
-                document.querySelectorAll('.photo-item-wrapper').forEach(function(wrapper) {
-                    wrapper.style.cursor = 'pointer';
-                    wrapper.addEventListener('click', wrapperClickHandler);
-                });
-            }
-            
-            // Click handler for images
-            function imageClickHandler(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Image clicked!'); // Debug log
-                
-                const modal = document.getElementById('docImgModal');
-                const modalImg = document.getElementById('docImgModalImg');
-                const modalName = document.getElementById('modalImageName');
-                
-                // Set image source and name
-                modalImg.src = this.getAttribute('data-img');
-                modalName.textContent = this.getAttribute('alt');
-                
-                // Show modal with animation
-                modal.style.display = 'flex';
-                modal.classList.add('modal-show');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            // Click handler for wrappers
-            function wrapperClickHandler(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Wrapper clicked!'); // Debug log
-                
-                const img = this.querySelector('.doc-img-thumb');
-                if (img) {
-                    const modal = document.getElementById('docImgModal');
-                    const modalImg = document.getElementById('docImgModalImg');
-                    const modalName = document.getElementById('modalImageName');
-                    
-                    // Set image source and name
-                    modalImg.src = img.getAttribute('data-img');
-                    modalName.textContent = img.getAttribute('alt');
-                    
-                    // Show modal with animation
-                    modal.style.display = 'flex';
-                    modal.classList.add('modal-show');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-            
-            // Initial attachment of click handlers
-            attachClickHandlers();
-            
-            // Close modal function
-            function closeModal() {
-                const modal = document.getElementById('docImgModal');
-                const modalImg = document.getElementById('docImgModalImg');
-                
-                modal.classList.remove('modal-show');
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    modalImg.src = '';
-                    document.body.style.overflow = 'auto'; // Restore scrolling
-                }, 300);
-            }
-            
-            // Close button click
-            document.getElementById('docImgModalClose').addEventListener('click', closeModal);
-            
-            // Click outside image to close
-            document.getElementById('docImgModal').addEventListener('click', function(e) {
-                if (e.target === this || e.target.classList.contains('modal-backdrop')) {
-                    closeModal();
-                }
-            });
-            
-            // Keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                const modal = document.getElementById('docImgModal');
-                if (modal.style.display === 'flex') {
-                    if (e.key === 'Escape') {
-                        closeModal();
-                    }
-                }
-            });
-        });
-    </script>
 </x-layout.app>
