@@ -7,6 +7,16 @@
         <a href="/">Home</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
-        <span class="navbar-guest">Viewing as Guest</span>
+        @auth
+            <div class="navbar-user-menu">
+                <span class="navbar-welcome">Welcome, {{ Auth::user()->name }}</span>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="navbar-logout-btn">Logout</button>
+                </form>
+            </div>
+        @else
+            <span class="navbar-guest">Viewing as Guest</span>
+        @endauth
     </div>
 </nav>

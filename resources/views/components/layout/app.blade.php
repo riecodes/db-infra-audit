@@ -12,9 +12,36 @@
 </head>
 <body>
     <x-layout.navbar />
+    
+    <!-- Flash Messages -->
+    @if(session('success'))
+        <div class="flash-message flash-success" id="flashMessage">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="flash-message flash-error" id="flashMessage">
+            {{ session('error') }}
+        </div>
+    @endif
+    
     <main>
         {{ $slot }}
     </main>
     @stack('scripts')
+    
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        const flashMessage = document.getElementById('flashMessage');
+        if (flashMessage) {
+            setTimeout(() => {
+                flashMessage.style.opacity = '0';
+                setTimeout(() => {
+                    flashMessage.remove();
+                }, 300);
+            }, 5000);
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+﻿
+
+    Directory: C:\xampp\htdocs\db-infra-audit\public\assets\img-documentation
+
+
+Mode                 LastWriteTime         Length Name                                                  
+----                 -------------         ------ ----                                                  
+d-----          6/3/2025   4:38 PM                01_AquaBEST_Bldg                                      
+d-----          6/3/2025   4:30 PM                02_Pangasiwaan-Supply Office                          
+d-----          6/3/2025   4:30 PM                03_Human Resource Office-Accounting Office            
+d-----          6/3/2025   4:30 PM                04_Cooperative Office                                 
+d-----          6/3/2025   4:38 PM                05_OSAS_CSG_ROTC Office                               
+d-----          6/3/2025   4:38 PM                06_PPSS_Office                                        
+d-----          6/3/2025   4:30 PM                07_Gym_Canteen                                        
+d-----          6/3/2025   4:30 PM                08_Infirmary                                          
+d-----          6/3/2025   4:30 PM                09_Aklatan                                            
+d-----          6/3/2025   4:39 PM                10_STAR_Center Bldg                                   
+d-----          6/3/2025   4:30 PM                11_Management Department Bldg No. 1                   
+d-----          6/3/2025   4:30 PM                12_Management Department Bldg No. 2                   
+d-----          6/3/2025   4:30 PM                13_Management Department Bldg No. 3                   
+d-----          6/3/2025   4:30 PM                14_Management Department Bldg No. 4                   
+d-----          6/3/2025   4:30 PM                15_Management Department Bldg No. 5                   
+
+

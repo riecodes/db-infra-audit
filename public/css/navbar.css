@@ -93,6 +93,39 @@
     color: #fff;
 }
 
+/* User menu styles */
+.navbar-user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 1.5rem;
+}
+
+.navbar-welcome {
+    color: #f5ecd7;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.navbar-logout-btn {
+    background: rgba(245, 236, 215, 0.1);
+    color: #f5ecd7;
+    border: 1px solid rgba(245, 236, 215, 0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.navbar-logout-btn:hover {
+    background: rgba(245, 236, 215, 0.2);
+    color: #fff;
+    border-color: rgba(245, 236, 215, 0.5);
+    transform: translateY(-1px);
+}
+
 @media (max-width: 700px) {
     .navbar {
         flex-direction: column;
@@ -121,4 +154,4 @@
 .navbar form {
     display: flex;
     align-items: center;
-} 
+}

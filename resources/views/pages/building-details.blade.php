@@ -12,7 +12,9 @@
         <div class="breadcrumb">
             <a href="{{ route('explore') }}">Explore</a> / Building Details
         </div>
-        <button class="edit-info-btn">EDIT INFO</button>
+        @auth
+            <button class="edit-info-btn">EDIT INFO</button>
+        @endauth
         <div class="hero-content">
             <h1 class="building-title">{{ strtoupper($building->name) }}</h1>
             <p class="building-subtitle">Infrastructure Details & Information</p>

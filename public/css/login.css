@@ -194,3 +194,23 @@ body {
         margin-top: 0;
     }
 }
+
+/* Error messages */
+.login-error {
+    background: #fee;
+    border: 1px solid #fcc;
+    color: #c33;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.login-error p {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.login-error p:last-child {
+    margin-bottom: 0;
+}
