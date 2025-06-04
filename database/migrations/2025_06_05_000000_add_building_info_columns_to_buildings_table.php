@@ -6,31 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('buildings', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->decimal('lat', 10, 7);
-            $table->decimal('lng', 10, 7);
-            $table->string('main_img')->nullable();
+        Schema::table('buildings', function (Blueprint $table) {
             $table->string('no_of_storey')->nullable();
             $table->string('type_of_building')->nullable();
             $table->string('type_of_structure')->nullable();
             $table->string('design_occupancy')->nullable();
             $table->string('year_edition_of_nscp')->nullable();
-            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('buildings');
+        Schema::table('buildings', function (Blueprint $table) {
+            $table->dropColumn([
+                'no_of_storey',
+                'type_of_building',
+                'type_of_structure',
+                'design_occupancy',
+                'year_edition_of_nscp'
+            ]);
+        });
     }
-};
+}; 
