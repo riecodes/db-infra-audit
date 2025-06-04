@@ -5,6 +5,7 @@ use App\Http\Controllers\BuildingController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DatabaseExportController;
+use App\Http\Controllers\ExploreController;
 
 Route::get('/', function () {
     return view('pages.home');
@@ -12,7 +13,7 @@ Route::get('/', function () {
 
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
-Route::view('/explore', 'pages.explore')->name('explore');
+Route::get('/explore', [ExploreController::class, 'index'])->name('explore');
 Route::view('/about-cvsu-naic', 'pages.about-cvsu-naic')->name('about-cvsu-naic');
 Route::view('/login', 'pages.login')->name('login');
 Route::view('/signup', 'pages.signup')->name('signup');

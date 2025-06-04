@@ -12,5 +12,7 @@
             <p>With the implementation of annual inspection of existing infrastructures in the Philippines, it is ensured that it complies with the standards that can withstand aforementioned hazards</p>
         </div>
     </div>
+    
+    <div class="about-hero-overlay"></div>
     </section>
 </x-layout.app>

@@ -5,29 +5,46 @@ body {
 }
 
 .contact-section {
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
+    min-height: 0;
+    position: relative;
+    background: url('/assets/img-buildings/CVSU_Naic Arc.jpg') center center/cover no-repeat;
+    transition: background-image 0.4s cubic-bezier(.4,0,.2,1);
+    overflow: hidden;
     padding: 2rem 0;
+}
+
+.contact-hero-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(77,107,83,0.6), rgba(77,107,83,0.6));
+    z-index: 0;
+    pointer-events: none;
 }
 
 .contact-card-container {
     background: rgba(245, 236, 215, 0.97);
     border-radius: 16px;
     box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-    padding: 2.5rem 2rem;
+    padding: 2rem;
     max-width: 900px;
     width: 100%;
     margin: 0 1rem;
     animation: fadeIn 0.8s cubic-bezier(.4,0,.2,1);
+    z-index: 1;
+    position: relative;
 }
 
 .contact-main-title {
     font-family: 'League Spartan', 'Arimo', 'Glacial Indifference', Arial, sans-serif;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     color: #4d6b53;
     letter-spacing: 0.03em;
     text-align: center;
@@ -36,14 +53,17 @@ body {
 .contact-list {
     display: flex;
     gap: 2rem;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .contact-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    flex: 1;
+    max-width: calc(50% - 1rem);
 }
 
 .contact-card {
@@ -55,9 +75,7 @@ body {
     padding: 1.2rem 1.5rem;
     gap: 1.2rem;
     transition: box-shadow 0.2s, transform 0.2s;
-    min-width: 270px;
-    max-width: 350px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 .contact-card:hover {
@@ -109,8 +127,14 @@ body {
         flex-direction: column;
         gap: 1.5rem;
     }
+    
+    .contact-column {
+        max-width: 100%;
+    }
+    
     .contact-card-container {
-        padding: 1.2rem 0.5rem;
+        padding: 1.2rem;
+        margin: 0 1rem;
     }
 }
 
@@ -118,18 +142,24 @@ body {
     .contact-card {
         flex-direction: column;
         align-items: flex-start;
-        padding: 1rem 0.7rem;
-        min-width: 180px;
-        max-width: 98vw;
+        padding: 1rem;
+        width: 100%;
     }
+    
     .contact-avatar {
         width: 48px;
         height: 48px;
     }
+    
     .contact-main-title {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
+    }
+    
+    .contact-card-container {
+        padding: 1rem;
+        margin: 0 0.5rem;
     }
 }
 
 /* Optional: Add Font Awesome for Facebook icon if not already included */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'); 
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');

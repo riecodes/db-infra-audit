@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
+            $table->string('main_img')->nullable();
             $table->timestamps();
         });
     }
